@@ -19,32 +19,26 @@ import matplotlib.pyplot as plt
 
 batchsize=12
 
-if platform.system()=='Darwin':
-    basepath = '/Users/marcaubreville/Mitosis/unet/WSI/'
-    slidelist_train = ['20']
-else: # linux lme61
-    if (platform.uname().node == 'lme61'): # linux lme61
-        basepath = './WSI/'#/data/Mitosen/WSI MCT Mitose 2017/'
-    else:
-        basepath = '/scratch/aubreville/WSI/' # cluster
-    slidelist = ['4', '6', '8', '18', '19', '17', '20', '21']
-    slidelist = ['26', '12', '23', '13', '28', '24', '29', '25', '11', '27', '30', '31', '4', '18', '20', '30',
+basepath = '../../MITOS_WSI_CCMCT/WSI/'
+slidelist = ['26', '12', '23', '13', '28', '24', '29', '25', '11', '27', '30', '31', '4', '18', '20', '30',
                        '14', '15', '32', '6', '7', '8', '22', '19', '34', '17', '21', '35','36', '1', '2', '3' ,'9']
 
-    slidelist = np.unique(slidelist).tolist()
+slidelist = np.unique(slidelist).tolist()
 
-    slidelist_test_1 = ['27', '30', '31', '6', '18', '20', '1', '2', '3' ,'9', '11']
-    slidelist_test_2 = ['26', '12', '23', '19', '34', '17', '24', '29', '25', '7', '4']
-    slidelist_test_3 = ['13', '28', '14', '15', '32', '21', '35','36', '8', '22']
+slidelist_test_1 = ['27', '30', '31', '6', '18', '20', '1', '2', '3' ,'9', '11']
+slidelist_test_2 = ['26', '12', '23', '19', '34', '17', '24', '29', '25', '7', '4']
+slidelist_test_3 = ['13', '28', '14', '15', '32', '21', '35','36', '8', '22']
 
-    if (sys.argv[1] == '1'):
+
+if (sys.argv[1] == '1'):
         slidelist_test = slidelist_test_1
-    elif (sys.argv[1] == '2'):
+elif (sys.argv[1] == '2'):
         slidelist_test = slidelist_test_2
-    elif (sys.argv[1] == '3'):
+elif (sys.argv[1] == '3'):
         slidelist_test = slidelist_test_3
 
-    slidelist_train = np.array(slidelist)[np.where([slidelist[x] not in slidelist_test for x in range(len(slidelist))])[0]].tolist()
+slidelist_train = np.array(slidelist)[np.where([slidelist[x] not in slidelist_test for x in range(len(slidelist))])[0]].tolist()
+
 
 PARALLEL_GETTERS = 6
 IMAGESIZE_X = 512
@@ -60,7 +54,7 @@ def get_filterKernel(dsamp, radius=25):
     return filterKernel_small / np.sum(filterKernel_small)
 
 def getFromQueue(queue, requestQueue):
-        DB = sqlite3.connect(basepath+os.sep+'MITOS_WSI_CCMCT_ODAEL.sqlite')
+        DB = sqlite3.connect(basepath+os.sep+'../databases/MITOS_WSI_CCMCT_ODAEL.sqlite')
         while (True):
             if queue.qsize()<100:
                 lstep = requestQueue.get()
@@ -413,7 +407,7 @@ def main(flags):
         proc.start()
         procs.append(proc)
 
-    DB = sqlite3.connect(basepath+os.sep+'MITOS_WSI_CCMCT_ODAEL.sqlite')
+    DB = sqlite3.connect(basepath+os.sep+'../databases/MITOS_WSI_CCMCT_ODAEL.sqlite')
     DBcur = DB.cursor()
 
 
