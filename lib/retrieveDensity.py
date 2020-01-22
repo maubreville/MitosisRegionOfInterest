@@ -2,6 +2,7 @@ import openslide
 import numpy as np
 import cv2
 import os
+import bz2
 
 def retrieveDensity_OD(slidedir:str, fname : str, threshold:float, results:dict) -> (np.ndarray,list):
     """ 
@@ -63,7 +64,8 @@ def retrieveDensity_reg(slidedir:str, filename : str, resultsdir : str, suffix :
         W_x = int(W_hpf / TILESIZE_X)
         W_y = int(H_hpf / TILESIZE_Y)
 
-        f = np.load(resultsdir + os.sep + filename + suffix)
+        f = np.load(bz2.BZ2File(resultsdir + os.sep + filename + suffix+'.bz2','rb'))
+        
 
         scorefield=np.zeros((np.max(f['tilesProcessed'][:,1])+1,1+np.max(f['tilesProcessed'][:,0])))
         scorefield[f['tilesProcessed'][:,1],f['tilesProcessed'][:,0]] = np.reshape(f['scores'],-1)
@@ -98,7 +100,8 @@ def retrieveDensityUNET(slidedir:str,filename : str, resultsdir:str, suffix : st
         W_x = int(W_hpf / ds)
         W_y = int(H_hpf / ds)
 
-        f = np.load(resultsdir + os.sep + filename + suffix)
+        f = np.load(bz2.BZ2File(resultsdir + os.sep + filename + suffix+'.bz2','rb'))
+
 
         completeMap = f['imageMap']
 
