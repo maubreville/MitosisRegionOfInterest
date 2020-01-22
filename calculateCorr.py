@@ -9,7 +9,6 @@
 import sqlite3
 from SlideRunner.general.dependencies import *
 from SlideRunner.dataAccess import *
-from SlideRunner.dataAccess import *
 from SlideRunner.dataAccess import annotations
 import numpy as np
 import SlideRunner.dataAccess.annotations
@@ -17,6 +16,7 @@ import os
 import openslide
 import sys
 import matplotlib
+import bz2
 import pickle
 from lib.retrieveDensity import *
 
@@ -122,7 +122,7 @@ def retrieveValidMask(filename:str):
     return validMask
 
 
-DB = Database().open('databases/MITOS_WSI_CCMCT_ODAEL.sqlite')
+DB = Database().open('MITOS_WSI_CCMCT/databases/MITOS_WSI_CCMCT_ODAEL.sqlite')
 
 allSlides = DB.execute('SELECT filename FROM Slides').fetchall()
 
@@ -131,27 +131,27 @@ results_2stage = []
 results_1stage_10hpf = []
 results_2stage_10hpf = []
 
-slidedir = './WSI/'
+slidedir = 'MITOS_WSI_CCMCT/WSI/'
 resultsdir = 'results/'
 valruns = 3
 print('Loading OD 10HPF results ..')
 for x in range(valruns):
         print('... ', files_1stage_10hpf[x])
-        results_1stage_10hpf.append(pickle.load(open(resultsdir+files_1stage_10hpf[x],'rb')))
+        results_1stage_10hpf.append(pickle.load(bz2.BZ2File(resultsdir+files_1stage_10hpf[x]+'.bz2','rb')))
 
 print('Loading OD2 10HPF results ..')
 for x in range(valruns):
         print('... ', files_2stage_10hpf[x])
-        results_2stage_10hpf.append(pickle.load(open(resultsdir+files_2stage_10hpf[x],'rb')))
+        results_2stage_10hpf.append(pickle.load(bz2.BZ2File(resultsdir+files_2stage_10hpf[x]+'.bz2','rb')))
 
 print('Loading OD results ..')
 for x in range(valruns):
         print('... ', files_1stage[x])
-        results_1stage.append(pickle.load(open(resultsdir+files_1stage[x],'rb')))
+        results_1stage.append(pickle.load(bz2.BZ2File(resultsdir+files_1stage[x]+'.bz2','rb')))
 
 print('Loading 2nd stage OD results ..')
 for x in range(valruns):
-        results_2stage.append(pickle.load(open(resultsdir+files_2ndstage[x],'rb')))
+        results_2stage.append(pickle.load(bz2.BZ2File(resultsdir+files_2ndstage[x]+'.bz2','rb')))
         print('... ', files_2ndstage[x])
 
 ccs = dict()

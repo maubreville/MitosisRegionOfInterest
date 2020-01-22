@@ -12,6 +12,7 @@ Overview:
 - The folder results/ contains all our results for your reference
 - The folder data/ contains the database with the anonymized expert opinion about the field of interest. 
 - The notebook Results.ipynb contains the code for the generation of the result plots of the manuscript, as well as for the statistical analysis.
+- The file calculateCorr.py can be used to retrieve Table 1.
 
 
 Note that this work is using the MITOS_WSI_CCMCT data set, available as open data. Please refer to the following repository to obtain it:
