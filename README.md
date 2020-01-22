@@ -14,3 +14,8 @@ Overview:
 - The notebook Results.ipynb contains the code for the generation of the result plots of the manuscript, as well as for the statistical analysis.
 
 
+Note that this work is using the MITOS_WSI_CCMCT data set, available as open data. Please refer to the following repository to obtain it:
+
+https://github.com/maubreville/MITOS_WSI_CCMCT
+
+The scripts in this repo expect the data set to be present, and the Setup.ipynb notebook to be run to import all the data from figshare.
